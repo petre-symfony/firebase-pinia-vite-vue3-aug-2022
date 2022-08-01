@@ -1,6 +1,6 @@
 <script setup>
 	import { useAuthModalShow } from '@/stores'
-	import { ref } from 'vue'
+	import { ref, reactive } from 'vue'
 
 	/*
 		store
@@ -11,6 +11,19 @@
 		tab
 	 */
 	const tab = ref('login')
+	/*
+	outsource vee validate rules into an object
+	 */
+	const schema = reactive({
+		name: 'required',
+		email: '',
+		age: '',
+		password: '',
+		confirm_password: '',
+		country: '',
+		tos: ''
+	})
+
 </script>
 <template>
 	<!-- Auth Modal -->
@@ -72,7 +85,6 @@
 								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
 								duration-500 focus:outline-none focus:border-black rounded"
 								placeholder="Enter Email"
-							 	:rules="'required'"
 							/>
 						</div>
 						<!-- Password -->
@@ -91,7 +103,7 @@
 						</button>
 					</form>
 					<!-- Registration Form -->
-					<vee-form v-show="tab === 'register'">
+					<vee-form v-show="tab === 'register'" :validation-schema="schema">
 						<!-- Name -->
 						<div class="mb-3">
 							<label class="inline-block mb-2">Name</label>
