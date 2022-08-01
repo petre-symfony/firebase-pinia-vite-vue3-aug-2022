@@ -71,7 +71,9 @@
 							<input type="email"
 								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
 								duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Enter Email" />
+								placeholder="Enter Email"
+							 	:rules="'required'"
+							/>
 						</div>
 						<!-- Password -->
 						<div class="mb-3">
