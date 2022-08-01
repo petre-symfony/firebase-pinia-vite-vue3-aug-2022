@@ -7,6 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.6.2",
     "pinia": "^2.0.17",
     "vee-validate": "^4.5.8",
     "vue": "^3.2.37",
