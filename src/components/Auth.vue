@@ -24,6 +24,11 @@
 		tos: 'tos'
 	})
 
+	const loginSchema = reactive({
+		email: 'required|min:3|max:100|email',
+		password: 'required|min:3|max:100'
+	})
+
 	/*
 		default register form value
 	 */
@@ -102,23 +107,25 @@
 					</ul>
 
 					<!-- Login Form -->
-					<form v-show="tab === 'login'">
+					<vee-form v-show="tab === 'login'" :validation-schema="loginSchema">
 						<!-- Email -->
 						<div class="mb-3">
 							<label class="inline-block mb-2">Email</label>
-							<input type="email"
+							<vee-field type="email" name="email"
 								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
 								duration-500 focus:outline-none focus:border-black rounded"
 								placeholder="Enter Email"
 							/>
+							<error-message class="text-red-600" name="email"/>
 						</div>
 						<!-- Password -->
 						<div class="mb-3">
 							<label class="inline-block mb-2">Password</label>
-							<input type="password"
+							<vee-field type="password" name="password"
 								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
 								duration-500 focus:outline-none focus:border-black rounded"
 								placeholder="Password" />
+							<error-message class="text-red-600" name="password"/>
 						</div>
 						<button type="submit"
 							class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition
@@ -126,7 +133,7 @@
 						>
 							Submit
 						</button>
-					</form>
+					</vee-form>
 					<!-- Registration Form -->
 					<div
 						class="text-white text-center font-bold p-5 mb-4"
