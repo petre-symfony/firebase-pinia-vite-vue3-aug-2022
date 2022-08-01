@@ -43,7 +43,11 @@ export default {
 				const message = messages[ctx.rule.name] ? messages[ctx.rule.name] : `The field ${ctx.field} is invalid`
 
 				return message
-			}
+			},
+			validateOnBlur: true, //default value
+			validateOnChange: true, //default value
+			validateOnInput: false, //default value
+			validateOnModelUpdate: true //default value
 		})
 	}
 }
