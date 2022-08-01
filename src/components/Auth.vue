@@ -19,9 +19,9 @@
 		email: 'required|min:3|max:100|email',
 		age: 'required|min_value:18|max_value:100',
 		password: 'required|min:3|max:100',
-		confirm_password: 'confirmed:@password',
-		country: 'required|excluded:Antarctica',
-		tos: 'required'
+		confirm_password: 'passwords_mismatch:@password',
+		country: 'required|country_excluded:Antarctica',
+		tos: 'tos'
 	})
 
 	/*
@@ -188,7 +188,7 @@
 						 		class="w-4 h-4 float-left -ml-6 mt-1 rounded"
 							/>
 							<label class="inline-block">Accept terms of service</label>
-							<error-message class="text-red-600" name="tos" />
+							<error-message class="text-red-600 block" name="tos" />
 						</div>
 						<button type="submit"
 							class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition
