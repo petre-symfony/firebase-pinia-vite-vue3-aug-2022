@@ -10,13 +10,36 @@
 	})
 
 	/*
+		show message alert after submit login form
+		and disable submit button while is in the process of logging
+	 */
+	const login_in_submission = ref(false)
+	const login_show_alert = ref(false)
+	const login_alert_variant = ref('')
+	const login_alert_msg = ref('Please wait! We are logging you in')
+
+	/*
 		login form
 	 */
 	const login = (values) => {
+		login_show_alert.value = true
+		login_in_submission.value = true
+		login_alert_variant.value = 'bg-blue-500'
+		login_alert_msg.value = 'Please wait! We are logging you in'
+		login_alert_variant.value = 'bg-green-500'
+
+		login_alert_msg.value = 'Success! You are now logged in'
 		console.log(values)
 	}
 </script>
 <template>
+	<div
+		class="text-white text-center font-bold p-4 mb-4"
+		v-if="login_show_alert"
+		:class="login_alert_variant"
+	>
+		{{ login_alert_msg }}
+	</div>
 	<vee-form
 		:validation-schema="loginSchema"
 		@submit="login"
