@@ -111,6 +111,7 @@
 								duration-500 focus:outline-none focus:border-black rounded"
 								placeholder="Enter Name"
 							/>
+							<error-message class="text-red-600" name="name" />
 						</div>
 						<!-- Email -->
 						<div class="mb-3">
