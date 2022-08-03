@@ -1,6 +1,6 @@
 <script setup>
 	import { ref, reactive } from 'vue'
-	import firebaseAuth from '../includes/firebase.js'
+	import { firebaseAuth } from '@/includes/firebase.js'
 	import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 	/*
