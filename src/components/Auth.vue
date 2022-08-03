@@ -55,6 +55,12 @@
 		console.log(values)
 	}
 
+	/*
+		login form
+	 */
+	const login = (values) => {
+		console.log(values)
+	}
 </script>
 <template>
 	<!-- Auth Modal -->
@@ -108,7 +114,7 @@
 					</ul>
 
 					<!-- Login Form -->
-					<vee-form v-show="tab === 'login'" :validation-schema="loginSchema">
+					<vee-form v-show="tab === 'login'" :validation-schema="loginSchema"  @submit="login">
 						<!-- Email -->
 						<div class="mb-3">
 							<label class="inline-block mb-2">Email</label>
