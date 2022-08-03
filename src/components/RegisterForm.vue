@@ -1,5 +1,7 @@
 <script setup>
 	import { ref, reactive } from 'vue'
+	import firebaseAuth from '../includes/firebase.js'
+	import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 	/*
 	outsource vee validate rules into an object
@@ -30,11 +32,14 @@
 	const reg_alert_variant = ref('')
 	const reg_alert_msg = ref('Please wait! Your account is being created.')
 
-	const register = (values) => {
+	const register = async (values) => {
 		reg_show_alert.value = true
 		reg_in_submission.value = true
 		reg_alert_variant.value = 'bg-blue-500'
 		reg_alert_msg.value = 'Please wait! Your account is being created.'
+
+		const userCred = await createUserWithEmailAndPassword(firebaseAuth, values.email, values.password)
+
 		reg_alert_variant.value = 'bg-green-500'
 		reg_alert_msg.value = 'Success! Your account has been created.'
 		console.log(values)
