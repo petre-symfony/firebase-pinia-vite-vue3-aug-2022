@@ -1,14 +1,24 @@
 <script setup>
 	import { useAuthModalShow } from '@/stores'
+	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
 	import { ref, reactive } from 'vue'
 	import AppRegisterForm from "@/components/RegisterForm.vue"
 	import AppLoginForm from "@/components/LoginForm.vue"
+	import { firebaseAuth } from "@/includes/firebase.js"
 
 	/*
 		store
 	 */
 	const storeAuthModalShow = useAuthModalShow()
 
+	/*
+		user pinia store
+	 */
+	const storeUser = useUserStore()
+
+	if (firebaseAuth.currentUser) {
+		storeUser.userLoggedIn = true
+	}
 	/*
 		tab
 	 */
