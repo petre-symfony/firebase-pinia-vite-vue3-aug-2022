@@ -3,6 +3,12 @@
 	import { firebaseAuth, usersCollection } from '@/includes/firebase.js'
 	import { createUserWithEmailAndPassword } from 'firebase/auth'
 	import { addDoc } from 'firebase/firestore'
+	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
+
+	/*
+		user pinia store
+	 */
+	const storeUser = useUserStore()
 
 	/*
 	outsource vee validate rules into an object
@@ -63,6 +69,7 @@
 			return;
 		}
 
+		storeUser.userLoggedIn = true
 
 		reg_alert_variant.value = 'bg-green-500'
 		reg_alert_msg.value = 'Success! Your account has been created.'
