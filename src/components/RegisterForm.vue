@@ -1,8 +1,5 @@
 <script setup>
 	import { ref, reactive } from 'vue'
-	import { firebaseAuth, usersCollection } from '@/includes/firebase.js'
-	import { createUserWithEmailAndPassword } from 'firebase/auth'
-	import { addDoc } from 'firebase/firestore'
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
 
 	/*
@@ -45,9 +42,8 @@
 		reg_alert_variant.value = 'bg-blue-500'
 		reg_alert_msg.value = 'Please wait! Your account is being created.'
 
-		let userCred = null
 		try {
-			userCred = await createUserWithEmailAndPassword(firebaseAuth, values.email, values.password)
+			await storeUser.register(values)
 		} catch(errors) {
 			reg_in_submission.value = false
 			reg_alert_variant.value = 'bg-red-500'
@@ -55,25 +51,9 @@
 			return
 		}
 
-		try {
-			await addDoc(usersCollection, {
-				name: values.name,
-				email: values.email,
-				age: values.age,
-				country: values.country
-			})
-		} catch (errors) {
-			reg_in_submission.value = false;
-			reg_alert_variant.value = 'bg-red-500';
-			reg_alert_msg.value = 'An unexpected error occured. Please try again later';
-			return;
-		}
-
-		storeUser.userLoggedIn = true
 
 		reg_alert_variant.value = 'bg-green-500'
 		reg_alert_msg.value = 'Success! Your account has been created.'
-		console.log(userCred)
 	}
 </script>
 <template>
