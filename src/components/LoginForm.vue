@@ -1,5 +1,11 @@
 <script setup>
-	import { ref, reactive } from "vue";
+	import { ref, reactive } from "vue"
+	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
+
+	/*
+		user pinia store
+	 */
+	const storeUser = useUserStore()
 
 	/*
 		show message alert after submit login form
@@ -21,12 +27,21 @@
 	/*
 		login form
 	 */
-	const login = (values) => {
+	const login = async (values) => {
 		login_show_alert.value = true
 		login_in_submission.value = true
 		login_alert_variant.value = 'bg-blue-500'
 		login_alert_msg.value = 'Please wait! We are logging you in'
 		login_alert_variant.value = 'bg-green-500'
+
+		try {
+			await storeUser.authenticate(values)
+		} catch(error) {
+			login_in_submission.value = false
+			login_alert_variant.value = 'bg-red-500'
+			login_alert_msg.value = 'Invalid details'
+			return
+		}
 
 		login_alert_msg.value = 'Success! You are now logged in'
 		console.log(values)
