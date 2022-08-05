@@ -44,7 +44,7 @@
 		}
 
 		login_alert_msg.value = 'Success! You are now logged in'
-		console.log(values)
+		window.location.reload()
 	}
 
 </script>
