@@ -34,6 +34,11 @@ export const useUserStore = defineStore('user', {
 		async authenticate(values) {
 			await signInWithEmailAndPassword(firebaseAuth, values.email, values.password)
 			this.userLoggedIn = true
+		},
+		async signOut(){
+			await firebaseAuth.signOut()
+
+			this.userLoggedIn = false
 		}
 	}
 })

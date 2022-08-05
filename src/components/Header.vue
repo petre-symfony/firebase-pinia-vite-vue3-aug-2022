@@ -32,7 +32,7 @@
 							<a class="px-2 text-white" href="#">Manage</a>
 						</li>
 						<li>
-							<a class="px-2 text-white" href="#">Logout</a>
+							<a class="px-2 text-white" href="#" @click.prevent="storeUser.signOut">Logout</a>
 						</li>
 					</template>
 				</ul>
