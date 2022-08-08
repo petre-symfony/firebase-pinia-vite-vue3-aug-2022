@@ -18,7 +18,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   console.log('Global Guard')
-  console.log(to, from)
 
   next()
 })

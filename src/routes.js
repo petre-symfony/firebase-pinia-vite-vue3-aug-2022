@@ -19,7 +19,11 @@ export const routes = [
     name: 'manage',
     //alias: '/manage',
     path: "/manage-music",
-    component: Manage
+    component: Manage,
+    beforeEnter: (to, from, next) => {
+      console.log('Manage Route Guard')
+      next()
+    }
   },
   {
     path: '/manage',
