@@ -16,12 +16,6 @@ const router = createRouter({
   linkExactActiveClass: 'text-yellow-500'
 })
 
-router.beforeEach((to, from, next) => {
-  console.log('Global Guard')
-
-  next()
-})
-
 let app;
 
 firebaseAuth.onAuthStateChanged((to, from, next) => {

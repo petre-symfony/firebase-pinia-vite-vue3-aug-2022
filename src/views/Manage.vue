@@ -133,12 +133,18 @@
 </template>
 
 <script>
+import { useUserStore } from '@/stores/storeUserLoggedIn.js'
+
 export default {
 	name: "Manage",
 	beforeRouteEnter(to, from, next) {
-		console.log('beforeRouteEnter Guard')
+		const store = useUserStore()
 
-		next()
+		if (store.userLoggedIn) {
+			next()
+		} else {
+			next({ name: 'home' })
+		}
 	}
 }
 </script>
