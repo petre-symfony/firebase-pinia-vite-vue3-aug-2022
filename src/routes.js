@@ -17,12 +17,15 @@ export const routes = [
   },
   {
     name: 'manage',
+    alias: '/manage',
     path: "/manage-music",
     component: Manage
   },
+  /*
   {
     path: '/manage',
     redirect: { name: 'manage' }
   },
+   */
   { path: '/:path(.*)', component: NotFound },
 ]
