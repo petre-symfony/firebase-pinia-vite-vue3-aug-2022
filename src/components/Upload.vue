@@ -7,8 +7,16 @@
 		<div class="p-6">
 			<div
 				class="w-full px-10 py-20 rounded text-center cursor-pointer border border-dashed
-							border-gray-400 text-gray-400 transition duration-500 hover:text-white
-							hover:bg-green-400 hover:border-green-400 hover:border-solid">
+					border-gray-400 text-gray-400 transition duration-500 hover:text-white
+					hover:bg-green-400 hover:border-green-400 hover:border-solid"
+				@drag.prevent.stop=""
+				@dragstart.prevent.stop=""
+				@dragend.prevent.stop=""
+				@dragover.prevent.stop=""
+				@dragenter.prevent.stop=""
+				@dragleave.prevent.stop=""
+				@drop.prevent.stop=""
+			>
 				<h5>Drop your files here</h5>
 			</div>
 			<hr class="my-6"/>
