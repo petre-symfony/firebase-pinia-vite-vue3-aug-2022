@@ -20,7 +20,7 @@
 
 	const signOut = () => {
 		storeUser.signOut()
-		if (route.name === 'manage') {
+		if (route.meta.requiresAuth) {
 			router.push({ name: "home" })
 		}
 	}

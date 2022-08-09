@@ -19,7 +19,10 @@ export const routes = [
     name: 'manage',
     //alias: '/manage',
     path: "/manage-music",
-    component: Manage
+    component: Manage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/manage',
