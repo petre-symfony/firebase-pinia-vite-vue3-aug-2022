@@ -1,19 +1,5 @@
 <script setup>
-import { useUserStore } from '@/stores/storeUserLoggedIn.js'
-import { useRouter } from 'vue-router'
 
-/*
-	router
- */
-const router = useRouter()
-/*
-	user pinia store
- */
-const storeUser = useUserStore()
-
-if (!storeUser.userLoggedIn) {
-	router.push({ name: 'home'})
-}
 </script>
 <template>
 	<section className="container mx-auto mt-6">
