@@ -1,9 +1,10 @@
 <script setup>
-	import { ref } from 'vue'
+	import { ref, reactive } from 'vue'
 	import { storage } from '@/includes/firebase.js'
-	import { ref as bucketStorageRef, uploadBytes } from 'firebase/storage'
+	import { ref as bucketStorageRef, uploadBytesResumable } from 'firebase/storage'
 
 	const is_dragover = ref(false)
+	const uploads = reactive([])
 
 	const upload = ($event) => {
 		is_dragover.value = false
@@ -16,7 +17,19 @@
 			}
 
 			const songsRef = bucketStorageRef(storage, `songs/${file.name}`)
-			uploadBytes(songsRef, file)
+			const uploadTask = uploadBytesResumable(songsRef, file)
+
+			uploads.push({
+				uploadTask,
+				current_progress: 0,
+				name: file.name
+			})
+			
+			uploadTask.on('state_changed',
+				(snapshot) => {
+					const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+				}
+			)
 		})
 		console.log(files)
 	}
@@ -44,22 +57,12 @@
 				<h5>Drop your files here</h5>
 			</div>
 			<hr class="my-6"/>
-			<div class="mb-4">
-				<div class="font-bold text-sm">Just another song.mp3</div>
+			<div class="mb-4" v-for="upload in uploads" :key="upload.name">
+				<div class="font-bold text-sm">{{ upload.name }}</div>
 				<div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-					<div class="transition-all progress-bar bg-blue-400" style="width: 75%"></div>
-				</div>
-			</div>
-			<div class="mb-4">
-				<div class="font-bold text-sm">Just another song.mp3</div>
-				<div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-					<div class="transition-all progress-bar bg-blue-400" style="width: 35%"></div>
-				</div>
-			</div>
-			<div class="mb-4">
-				<div class="font-bold text-sm">Just another song.mp3</div>
-				<div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-					<div class="transition-all progress-bar bg-blue-400" style="width: 55%"></div>
+					<div class="transition-all progress-bar bg-blue-400"
+					 	:class="'bg-blue-400'"
+				 		:style="{ width: upload.current_progress + '%' }"></div>
 				</div>
 			</div>
 		</div>
