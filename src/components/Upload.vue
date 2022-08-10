@@ -5,7 +5,9 @@
 
 	const upload = ($event) => {
 		is_dragover.value = false
-		console.log($event)
+
+		const { files } = $event.dataTransfer
+		console.log(files)
 	}
 </script>
 <template>
