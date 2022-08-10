@@ -6,7 +6,13 @@
 	const upload = ($event) => {
 		is_dragover.value = false
 
-		const { files } = $event.dataTransfer
+		const files  = [...$event.dataTransfer]
+
+		files.forEach((file) => {
+			if (file.type !== 'audio/mpeg') {
+				return
+			}
+		})
 		console.log(files)
 	}
 </script>
