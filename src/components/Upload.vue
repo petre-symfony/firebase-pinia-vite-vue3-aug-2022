@@ -19,15 +19,16 @@
 			const songsRef = bucketStorageRef(storage, `songs/${file.name}`)
 			const uploadTask = uploadBytesResumable(songsRef, file)
 
-			uploads.push({
+			const uploadIndex = uploads.push({
 				uploadTask,
 				current_progress: 0,
 				name: file.name
-			})
-			
+			}) - 1
+
 			uploadTask.on('state_changed',
 				(snapshot) => {
 					const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+					uploads[uploadIndex].current_progress = progress
 				}
 			)
 		})
