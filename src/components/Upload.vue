@@ -1,17 +1,22 @@
 <script setup>
 	import { ref } from 'vue'
+	import { storage } from '@/includes/firebase.js'
+	import { ref as bucketStorageRef, uploadBytes } from 'firebase/storage'
 
 	const is_dragover = ref(false)
 
 	const upload = ($event) => {
 		is_dragover.value = false
 
-		const files  = [...$event.dataTransfer]
+		const files  = [...$event.dataTransfer.files]
 
 		files.forEach((file) => {
 			if (file.type !== 'audio/mpeg') {
 				return
 			}
+
+			const songsRef = bucketStorageRef(storage, `songs/${file.name}`)
+			uploadBytes(songsRef, file)
 		})
 		console.log(files)
 	}
