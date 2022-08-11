@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, reactive } from 'vue'
+	import { ref, reactive, onBeforeUnmount } from 'vue'
 	import { storage } from '@/includes/firebase.js'
 	import { ref as bucketStorageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 	import { firebaseAuth, songsCollection } from '@/includes/firebase.js'
@@ -63,8 +63,14 @@
 				}
 			)
 		})
-		console.log(files)
 	}
+
+	onBeforeUnmount(() => {
+		uploads.forEach((upload) => {
+			console.log(upload)
+			upload.uploadTask.cancel()
+		})
+	})
 </script>
 <template>
 	<div class="bg-white rounded border border-gray-200 relative flex flex-col">
