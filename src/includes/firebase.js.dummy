@@ -22,10 +22,10 @@ const firebaseAuth = getAuth(app)
 // Initialize Cloud Firestore and get a reference to the service
 const firebaseFirestore = getFirestore(app)
 
-const usersCollection = collection(firebaseFirestore, "users")
+const songsCollection = collection(firebaseFirestore, "songs")
 
 const storage = getStorage(app)
 
 export {
-  firebaseAuth, firebaseFirestore, usersCollection, storage
+  firebaseAuth, firebaseFirestore, songsCollection, storage
 }

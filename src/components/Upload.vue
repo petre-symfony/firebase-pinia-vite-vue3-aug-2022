@@ -1,7 +1,9 @@
 <script setup>
 	import { ref, reactive } from 'vue'
 	import { storage } from '@/includes/firebase.js'
-	import { ref as bucketStorageRef, uploadBytesResumable } from 'firebase/storage'
+	import { ref as bucketStorageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+	import { firebaseAuth, songsCollection } from '@/includes/firebase.js'
+	import { addDoc } from "firebase/firestore"
 
 	const is_dragover = ref(false)
 	const uploads = reactive([])
@@ -39,7 +41,20 @@
 					uploads[uploadIndex].text_class = 'text-red-400'
 					console.log(error)
 				},
-				() => {
+				async () => {
+					const song = {
+						uid: firebaseAuth.currentUser.uid,
+						display_name: firebaseAuth.currentUser.displayName,
+						original_name: uploadTask.snapshot.ref.name,
+						modified_name: uploadTask.snapshot.ref.name,
+						genre: '',
+						comment_count: 0
+					}
+
+					song.url = await getDownloadURL(bucketStorageRef(storage, `songs/${song.original_name}`))
+
+					await addDoc(songsCollection, song)
+
 					uploads[uploadIndex].variant = 'bg-green-400'
 					uploads[uploadIndex].icon = 'fas fa-check'
 					uploads[uploadIndex].text_class = 'text-green-400'
