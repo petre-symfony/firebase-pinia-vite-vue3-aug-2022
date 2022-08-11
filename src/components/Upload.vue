@@ -32,6 +32,17 @@
 				(snapshot) => {
 					const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
 					uploads[uploadIndex].current_progress = progress
+				},
+				(error) => {
+					uploads[uploadIndex].variant = 'bg-red-400'
+					uploads[uploadIndex].icon = 'fas fa-times'
+					uploads[uploadIndex].text_class = 'text-red-400'
+					console.log(error)
+				},
+				() => {
+					uploads[uploadIndex].variant = 'bg-green-400'
+					uploads[uploadIndex].icon = 'fas fa-check'
+					uploads[uploadIndex].text_class = 'text-green-400'
 				}
 			)
 		})
