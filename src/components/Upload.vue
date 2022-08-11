@@ -11,7 +11,9 @@
 	const upload = ($event) => {
 		is_dragover.value = false
 
-		const files  = [...$event.dataTransfer.files]
+		const files  = $event.dataTransfer ?
+			[...$event.dataTransfer.files] :
+			[...$event.target.files]
 
 		files.forEach((file) => {
 			if (file.type !== 'audio/mpeg') {
@@ -86,6 +88,7 @@
 			>
 				<h5>Drop your files here</h5>
 			</div>
+			<input type="file" multiple @change="upload($event)"/>
 			<hr class="my-6"/>
 			<div class="mb-4" v-for="upload in uploads" :key="upload.name">
 				<div class="font-bold text-sm" :class="upload.text_class">
