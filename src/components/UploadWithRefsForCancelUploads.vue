@@ -65,12 +65,20 @@
 		})
 	}
 
+	const cancelUploads = () => {
+		uploads.forEach((upload) => {
+			upload.uploadTask.cancel()
+		})
+	}
 
+	defineExpose({cancelUploads})
+	/*
 	onBeforeUnmount(() => {
 		uploads.forEach((upload) => {
 			upload.uploadTask.cancel()
 		})
 	})
+	 */
 </script>
 <template>
 	<div class="bg-white rounded border border-gray-200 relative flex flex-col">
