@@ -8,6 +8,8 @@
 	const is_dragover = ref(false)
 	const uploads = reactive([])
 
+	const props = defineProps(['addSong'])
+
 	const upload = ($event) => {
 		is_dragover.value = false
 
@@ -55,7 +57,9 @@
 
 					song.url = await getDownloadURL(bucketStorageRef(storage, `songs/${song.original_name}`))
 
-					await addDoc(songsCollection, song)
+					const songRef = await addDoc(songsCollection, song)
+
+					props.addSong(songRef)
 
 					uploads[uploadIndex].variant = 'bg-green-400'
 					uploads[uploadIndex].icon = 'fas fa-check'

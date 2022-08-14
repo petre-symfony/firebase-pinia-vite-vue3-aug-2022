@@ -12,12 +12,7 @@
 
 		const querySnapshot = await getDocs(q)
 		querySnapshot.forEach((doc) => {
-			const song = {
-				...doc.data(),
-				docID: doc.id
-			}
-
-			songs.push(song)
+			addSong(doc)
 		})
 	}
 
@@ -31,12 +26,21 @@
 	const removeSong = (i) => {
 		songs.splice(i, 1)
 	}
+
+	const addSong = (doc) => {
+		const song = {
+			...doc.data(),
+			docID: doc.id
+		}
+
+		songs.push(song)
+	}
 </script>
 <template>
 	<section class="container mx-auto mt-6">
 		<div class="md:grid md:grid-cols-3 md:gap-4">
 			<div class="col-span-1">
-				<app-upload />
+				<app-upload :addSong="addSong" />
 			</div>
 			<div class="col-span-2">
 				<div class="bg-white rounded border border-gray-200 relative flex flex-col">
