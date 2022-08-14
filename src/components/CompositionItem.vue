@@ -1,6 +1,6 @@
 <script setup>
 	import { reactive, ref } from "vue"
-	import { doc, updateDoc } from 'firebase/firestore'
+	import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 	import { ref as bucketStorageRef, deleteObject } from 'firebase/storage'
 	import { firebaseFirestore, storage } from "@/includes/firebase.js"
 
@@ -27,6 +27,10 @@
 		},
 		index: {
 			type: Number,
+			required: true
+		},
+		removeSong: {
+			type: Function,
 			required: true
 		}
 	})
@@ -56,7 +60,11 @@
 
 	const deleteSong = async () => {
 		const songRef = bucketStorageRef(storage, `songs/${props.song.original_name}`)
+
 		await deleteObject(songRef)
+		await deleteDoc(doc(firebaseFirestore, 'songs', props.song.docID))
+
+		props.removeSong(props.index)
 	}
 </script>
 <template>

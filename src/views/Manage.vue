@@ -28,6 +28,9 @@
 		songs[i].genre = values.genre
 	}
 
+	const removeSong = (i) => {
+		songs.splice(i, 1)
+	}
 </script>
 <template>
 	<section class="container mx-auto mt-6">
@@ -46,6 +49,7 @@
 							:song="song"
 							:updateSong="updateSong"
 						 	:index="i"
+							:removeSong="removeSong"
 						/>
 					</div>
 				</div>
