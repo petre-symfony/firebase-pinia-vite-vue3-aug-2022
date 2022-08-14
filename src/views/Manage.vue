@@ -1,5 +1,13 @@
 <script setup>
-import AppUpload from "@/components/Upload.vue"
+	import AppUpload from "@/components/Upload.vue"
+	import { songsCollection, firebaseAuth } from "@/includes/firebase.js"
+	import { query, where, getDocs } from 'firebase/firestore'
+
+	const getSongs = async () => {
+		const q = query(songsCollection, where('uid', '==', firebaseAuth.currentUser.uid))
+
+		const querySnapshot = await getDocs(q)
+	}
 
 </script>
 <template>
