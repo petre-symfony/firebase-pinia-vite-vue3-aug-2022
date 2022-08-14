@@ -3,7 +3,7 @@
 	import CompositionItem from "@/components/CompositionItem.vue"
 	import { songsCollection, firebaseAuth } from "@/includes/firebase.js"
 	import { query, where, getDocs } from 'firebase/firestore'
-	import { reactive } from 'vue'
+	import { ref, reactive } from 'vue'
 	import { onBeforeRouteLeave } from 'vue-router'
 
 	const songs = reactive([])
@@ -46,7 +46,12 @@
 	}
 
 	onBeforeRouteLeave((to, from, next) => {
-
+		if (unsavedFlag.value == false){
+			next()
+		} else {
+			const leave = confirm('You have unsaved changes. Are you sure you want to leave?')
+			next(leave)
+		}
 	})
 </script>
 <template>
