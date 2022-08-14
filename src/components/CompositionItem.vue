@@ -1,5 +1,7 @@
 <script setup>
-	import {reactive, ref} from "vue"
+	import { reactive, ref } from "vue"
+	import { doc, updateDoc } from 'firebase/firestore'
+	import { firebaseFirestore } from "@/includes/firebase.js"
 
 	const showForm = ref(false)
 	const schema = reactive({
@@ -20,11 +22,25 @@
 		}
 	})
 
-	const edit = () => {
+	const edit = async ( values ) => {
 		in_submission.value = true
 		show_alerts.value = true
 		alert_variant.value = 'bg-blue-500'
 		alert_message.value = 'Please wait! Updating song info'
+
+		const songRef = doc(firebaseFirestore, 'songs', props.song.docID)
+		try {
+			await updateDoc(songRef, values)
+		} catch(error) {
+			in_submission.value = false
+			alert_variant.value = 'bg-red-500'
+			alert_message.value = 'Something went wrong! Try again later'
+			return
+		}
+
+		in_submission.value = false
+		alert_variant.value = 'bg-green-500'
+		alert_message.value = 'Success!'
 	}
 </script>
 <template>
