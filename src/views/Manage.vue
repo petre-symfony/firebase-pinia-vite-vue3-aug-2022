@@ -2,12 +2,25 @@
 	import AppUpload from "@/components/Upload.vue"
 	import { songsCollection, firebaseAuth } from "@/includes/firebase.js"
 	import { query, where, getDocs } from 'firebase/firestore'
+	import { reactive } from 'vue'
+
+	const songs = reactive([])
 
 	const getSongs = async () => {
 		const q = query(songsCollection, where('uid', '==', firebaseAuth.currentUser.uid))
 
 		const querySnapshot = await getDocs(q)
+		querySnapshot.forEach((doc) => {
+			const song = {
+				...doc.data(),
+				docID: doc.id
+			}
+
+			songs.push(song)
+		})
 	}
+
+	getSongs()
 
 </script>
 <template>
