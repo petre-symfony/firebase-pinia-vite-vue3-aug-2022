@@ -4,9 +4,14 @@
 	import { songsCollection, firebaseAuth } from "@/includes/firebase.js"
 	import { query, where, getDocs } from 'firebase/firestore'
 	import { reactive } from 'vue'
+	import { onBeforeRouteLeave } from 'vue-router'
 
 	const songs = reactive([])
+	const unsavedFlag = ref(false)
 
+	/*
+		Functions
+	 */
 	const getSongs = async () => {
 		const q = query(songsCollection, where('uid', '==', firebaseAuth.currentUser.uid))
 
@@ -35,6 +40,14 @@
 
 		songs.push(song)
 	}
+
+	const updateUnsavedFlag = (value) => {
+		unsavedFlag.value = value
+	}
+
+	onBeforeRouteLeave((to, from, next) => {
+
+	})
 </script>
 <template>
 	<section class="container mx-auto mt-6">
@@ -54,6 +67,7 @@
 							:updateSong="updateSong"
 						 	:index="i"
 							:removeSong="removeSong"
+						 	:updateUnsavedFlag="updateUnsavedFlag"
 						/>
 					</div>
 				</div>
