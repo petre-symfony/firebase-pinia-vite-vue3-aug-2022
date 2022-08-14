@@ -37,7 +37,7 @@
 						<i class="fa fa-compact-disc float-right text-green-400 text-2xl"></i>
 					</div>
 					<div class="p-6">
-						<CompositionItem v-for="song in songs" :key="song.docID" />
+						<CompositionItem v-for="song in songs" :key="song.docID" :song="song"/>
 					</div>
 				</div>
 			</div>
