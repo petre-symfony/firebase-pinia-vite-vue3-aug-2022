@@ -23,6 +23,11 @@
 
 	getSongs()
 
+	const updateSong = (i, values) => {
+		songs[i].modified_name = values.modified_name
+		songs[i].genre = values.genre
+	}
+
 </script>
 <template>
 	<section class="container mx-auto mt-6">
@@ -37,7 +42,11 @@
 						<i class="fa fa-compact-disc float-right text-green-400 text-2xl"></i>
 					</div>
 					<div class="p-6">
-						<CompositionItem v-for="song in songs" :key="song.docID" :song="song"/>
+						<CompositionItem v-for="(song, i) in songs" :key="song.docID"
+							:song="song"
+							:updateSong="updateSong"
+						 	:index="i"
+						/>
 					</div>
 				</div>
 			</div>

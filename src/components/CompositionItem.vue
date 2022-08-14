@@ -19,6 +19,14 @@
 		song: {
 			type: Object,
 			required: true
+		},
+		updateSong: {
+			type: Function,
+			required: true
+		},
+		index: {
+			type: Number,
+			required: true
 		}
 	})
 
@@ -37,6 +45,8 @@
 			alert_message.value = 'Something went wrong! Try again later'
 			return
 		}
+
+		props.updateSong(props.index, values)
 
 		in_submission.value = false
 		alert_variant.value = 'bg-green-500'
