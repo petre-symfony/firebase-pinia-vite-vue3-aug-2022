@@ -1,7 +1,8 @@
 <script setup>
 	import { reactive, ref } from "vue"
 	import { doc, updateDoc } from 'firebase/firestore'
-	import { firebaseFirestore } from "@/includes/firebase.js"
+	import { ref as bucketStorageRef, deleteObject } from 'firebase/storage'
+	import { firebaseFirestore, storage } from "@/includes/firebase.js"
 
 	const showForm = ref(false)
 	const schema = reactive({
@@ -52,12 +53,19 @@
 		alert_variant.value = 'bg-green-500'
 		alert_message.value = 'Success!'
 	}
+
+	const deleteSong = async () => {
+		const songRef = bucketStorageRef(storage, `songs/${props.song.original_name}`)
+		await deleteObject(songRef)
+	}
 </script>
 <template>
 	<div class="border border-gray-200 p-3 mb-4 rounded">
 		<div v-show="!showForm">
 			<h4 class="inline-block text-2xl font-bold">{{ song.modified_name }}</h4>
-			<button class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right">
+			<button class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right"
+				@click.prevent="deleteSong"
+			>
 				<i class="fa fa-times"></i>
 			</button>
 			<button
