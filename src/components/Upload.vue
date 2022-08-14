@@ -3,7 +3,7 @@
 	import { storage } from '@/includes/firebase.js'
 	import { ref as bucketStorageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 	import { firebaseAuth, songsCollection } from '@/includes/firebase.js'
-	import { addDoc } from "firebase/firestore"
+	import { addDoc, getDoc } from "firebase/firestore"
 
 	const is_dragover = ref(false)
 	const uploads = reactive([])
@@ -58,8 +58,9 @@
 					song.url = await getDownloadURL(bucketStorageRef(storage, `songs/${song.original_name}`))
 
 					const songRef = await addDoc(songsCollection, song)
+					const songSnapshot = await getDoc(songRef)
 
-					props.addSong(songRef)
+					props.addSong(songSnapshot)
 
 					uploads[uploadIndex].variant = 'bg-green-400'
 					uploads[uploadIndex].icon = 'fas fa-check'
