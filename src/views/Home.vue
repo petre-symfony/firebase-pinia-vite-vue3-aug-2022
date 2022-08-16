@@ -1,13 +1,22 @@
 <script setup>
-	import { songsCollection } from "@/includes/firebase.js"
+	import { songsCollection, firebaseFirestore } from "@/includes/firebase.js"
 	import AppSongItem from "@/components/SongItem.vue"
-	import { query, getDocs, where } from 'firebase/firestore'
+	import { query, getDocs, limit, startAfter, doc, getDoc, orderBy } from 'firebase/firestore'
 	import { reactive, onBeforeUnmount } from 'vue'
 
 	const songs = reactive([])
+	const maxPerPage = 3
 
 	const getSongs = async () => {
-		const q = query(songsCollection)
+		const lastDoc = doc(firebaseFirestore, "songs", songs[songs.length - 1].docID)
+		const lastDocSnapshot = await getDoc(lastDoc)
+
+		const q = query(
+			songsCollection,
+			orderBy('modified_name'),
+			startAfter(lastDocSnapshot),
+			limit(maxPerPage)
+		)
 
 		const querySnapshot = await getDocs(q)
 
@@ -25,7 +34,7 @@
 		const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight
 
 		if(bottomOfWindow) {
-			console.log('bottom of window')
+			getSongs()
 		}
 	}
 
