@@ -3,9 +3,7 @@ import './assets/tailwind.css'
 import './assets/main.css'
 import { createPinia } from 'pinia'
 import VeeValidatePlugin from './includes/validation.js'
-import { firebaseAuth } from "@/includes/firebase";
-
-'./includes/firebase.js'
+import { firebaseAuth } from "@/includes/firebase.js"
 import App from './App.vue'
 import { routes } from './routes.js'
 import { createRouter, createWebHistory } from 'vue-router'
