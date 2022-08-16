@@ -2,12 +2,19 @@
 	import { songsCollection, firebaseFirestore } from "@/includes/firebase.js"
 	import AppSongItem from "@/components/SongItem.vue"
 	import { query, getDocs, limit, startAfter, doc, getDoc, orderBy } from 'firebase/firestore'
-	import { reactive, onBeforeUnmount } from 'vue'
+	import { ref, reactive, onBeforeUnmount } from 'vue'
 
 	const songs = reactive([])
-	const maxPerPage = 3
+	const maxPerPage = 5
+	const pendingRequest = ref(false)
 
 	const getSongs = async () => {
+		if (pendingRequest.value === true) {
+			return
+		}
+
+		pendingRequest.value = true
+
 		let querySnapshot
 
 		if(songs.length) {
@@ -28,7 +35,7 @@
 				orderBy('modified_name'),
 				limit(maxPerPage)
 			)
-			
+
 			querySnapshot = await getDocs(q)
 		}
 
@@ -38,6 +45,8 @@
 				...doc.data()
 			})
 		})
+
+		pendingRequest.value = false
 	}
 
 	const handleScroll = () => {
