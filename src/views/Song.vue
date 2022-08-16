@@ -1,3 +1,32 @@
+<script setup>
+	import { firebaseFirestore } from '@/includes/firebase.js'
+	import { doc, getDoc } from 'firebase/firestore'
+	import { useRoute, useRouter } from 'vue-router'
+	import { reactive } from 'vue'
+
+	const song = reactive({})
+	/*
+		create route and router object
+	 */
+	const route = useRoute()
+	const router = useRouter()
+
+	const getSong = async () => {
+		const docRef = doc(firebaseFirestore, "songs", route.params.id)
+		const docSnapshot = await getDoc(docRef)
+
+		if (!docSnapshot.exists) {
+			router.push({ name: 'home'})
+			return
+		}
+
+		Object.entries(docSnapshot.data()).forEach(([key, value]) => {
+			song[key] = value
+		})
+	}
+
+	getSong()
+</script>
 <template>
 	<div>
 		<section class="w-full mb-8 py-14 text-center text-white relative">
@@ -10,8 +39,8 @@
 					<i class="fas fa-play"></i>
 				</button>
 				<div class="z-50 text-left ml-8">
-					<div class="text-3xl font-bold">Song Title</div>
-					<div>Blues Rock</div>
+					<div class="text-3xl font-bold">{{ song.modified_name }}</div>
+					<div>{{ song.genre }}</div>
 				</div>
 			</div>
 		</section>
@@ -120,7 +149,3 @@ export default {
 	name: "Song"
 }
 </script>
-
-<style scoped>
-
-</style>
