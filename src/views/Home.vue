@@ -8,17 +8,29 @@
 	const maxPerPage = 3
 
 	const getSongs = async () => {
-		const lastDoc = doc(firebaseFirestore, "songs", songs[songs.length - 1].docID)
-		const lastDocSnapshot = await getDoc(lastDoc)
+		let querySnapshot
 
-		const q = query(
-			songsCollection,
-			orderBy('modified_name'),
-			startAfter(lastDocSnapshot),
-			limit(maxPerPage)
-		)
+		if(songs.length) {
+			const lastDoc = doc(firebaseFirestore, "songs", songs[songs.length - 1].docID)
+			const lastDocSnapshot = await getDoc(lastDoc)
 
-		const querySnapshot = await getDocs(q)
+			const q = query(
+				songsCollection,
+				orderBy('modified_name'),
+				startAfter(lastDocSnapshot),
+				limit(maxPerPage)
+			)
+
+			querySnapshot = await getDocs(q)
+		} else {
+			const q = query(
+				songsCollection,
+				orderBy('modified_name'),
+				limit(maxPerPage)
+			)
+			
+			querySnapshot = await getDocs(q)
+		}
 
 		querySnapshot.forEach((doc) => {
 			songs.push({
