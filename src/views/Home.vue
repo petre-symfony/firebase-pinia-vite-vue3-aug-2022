@@ -2,7 +2,7 @@
 	import { songsCollection } from "@/includes/firebase.js"
 	import AppSongItem from "@/components/SongItem.vue"
 	import { query, getDocs, where } from 'firebase/firestore'
-	import { reactive } from 'vue'
+	import { reactive, onBeforeUnmount } from 'vue'
 
 	const songs = reactive([])
 
@@ -19,7 +19,22 @@
 		})
 	}
 
+	const handleScroll = () => {
+		const { scrollTop, offsetHeight } = document.documentElement
+		const { innerHeight } = window
+		const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight
+
+		if(bottomOfWindow) {
+			console.log('bottom of window')
+		}
+	}
+
 	getSongs()
+	window.addEventListener('scroll', handleScroll)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener('scroll', handleScroll)
+	})
 </script>
 <template>
 	<!-- Introduction -->
