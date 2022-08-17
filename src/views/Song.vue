@@ -1,5 +1,6 @@
 <script setup>
 	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
+	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
 	import { doc, getDoc, addDoc } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive } from 'vue'
@@ -17,6 +18,11 @@
 	 */
 	const route = useRoute()
 	const router = useRouter()
+
+	/*
+		user pinia store
+	 */
+	const storeUser = useUserStore()
 
 	const getSong = async () => {
 		const docRef = doc(firebaseFirestore, "songs", route.params.id)
@@ -84,7 +90,7 @@
 					<div class="text-white text-center font-bold p-4 mb-4"
 				 		v-if="comment_show_alert" :class="comment_alert_variant"
 					>{{ comment_alert_message }}</div>
-					<vee-form :validation-schema="schema" @submit="addComment">
+					<vee-form :validation-schema="schema" @submit="addComment" v-if="storeUser.userLoggedIn">
           	<vee-field as="textarea" name="comment"
 							class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
               duration-500 focus:outline-none focus:border-black rounded mb-4"
