@@ -32,7 +32,7 @@
 		})
 	}
 
-	const addComment = async (values, context) => {
+	const addComment = async (values, { resetForm }) => {
 		comment_in_submission.value = true
 		comment_show_alert.value = true
 		comment_alert_variant.value = 'bg-blue-500'
@@ -51,6 +51,8 @@
 		comment_in_submission.value = false
 		comment_alert_variant.value = 'bg-green-500'
 		comment_alert_message.value = 'Comment added'
+
+		resetForm()
 	}
 
 	getSong()
