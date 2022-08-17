@@ -32,7 +32,7 @@
 		})
 	}
 
-	const addComment = async (values) => {
+	const addComment = async (values, context) => {
 		comment_in_submission.value = true
 		comment_show_alert.value = true
 		comment_alert_variant.value = 'bg-blue-500'
