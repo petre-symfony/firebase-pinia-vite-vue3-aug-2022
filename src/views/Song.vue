@@ -1,6 +1,6 @@
 <script setup>
-	import { firebaseFirestore } from '@/includes/firebase.js'
-	import { doc, getDoc } from 'firebase/firestore'
+	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
+	import { doc, getDoc, addDoc } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive } from 'vue'
 
@@ -37,6 +37,20 @@
 		comment_show_alert.value = true
 		comment_alert_variant.value = 'bg-blue-500'
 		comment_alert_message.value = 'Please wait! Your comment is being submitted'
+
+		const comment = {
+			content: values.comment,
+			datePosted: new Date().toString(),
+			sid: route.params.id,
+			name: firebaseAuth.currentUser.displayName,
+			uid: firebaseAuth.currentUser.uid
+		}
+
+		await addDoc(commentsCollection, comment)
+
+		comment_in_submission.value = false
+		comment_alert_variant.value = 'bg-green-500'
+		comment_alert_message.value = 'Comment added'
 	}
 
 	getSong()

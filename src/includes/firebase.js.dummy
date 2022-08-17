@@ -23,9 +23,14 @@ const firebaseAuth = getAuth(app)
 const firebaseFirestore = getFirestore(app)
 
 const songsCollection = collection(firebaseFirestore, "songs")
+const commentsCollection = collection(firebaseFirestore, "comments")
 
 const storage = getStorage(app)
 
 export {
-  firebaseAuth, firebaseFirestore, songsCollection, storage
+  firebaseAuth,
+  firebaseFirestore,
+  songsCollection,
+  commentsCollection
+  storage
 }
