@@ -1,7 +1,7 @@
 <script setup>
 	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
-	import { doc, getDoc, addDoc } from 'firebase/firestore'
+	import { doc, getDoc, addDoc, query, where, getDocs } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive } from 'vue'
 
@@ -13,6 +13,7 @@
 	const comment_show_alert = ref(false)
 	const comment_alert_variant = ref('bg-blue-500')
 	const comment_alert_message = ref('Please wait! Your comment is being submitted')
+	const comments = reactive([])
 	/*
 		create route and router object
 	 */
@@ -24,6 +25,21 @@
 	 */
 	const storeUser = useUserStore()
 
+	const getComments = async () => {
+		const q = query(commentsCollection, where('sid', '==', route.params.id))
+
+		const querySnapshot = await getDocs(q)
+
+		comments.length = 0
+
+		querySnapshot.forEach((doc) => {
+			comments.push({
+				docId: doc.id,
+				...doc.data()
+			})
+		})
+	}
+
 	const getSong = async () => {
 		const docRef = doc(firebaseFirestore, "songs", route.params.id)
 		const docSnapshot = await getDoc(docRef)
@@ -32,6 +48,8 @@
 			router.push({ name: 'home'})
 			return
 		}
+
+		getComments()
 
 		Object.entries(docSnapshot.data()).forEach(([key, value]) => {
 			song[key] = value
@@ -112,76 +130,15 @@
 			</div>
 		</section>
 		<ul class="container mx-auto">
-			<li class="p-6 bg-gray-50 border border-gray-200">
+			<li class="p-6 bg-gray-50 border border-gray-200" v-for="comment in comments" :key="comment.docID">
 				<!-- Comment Author -->
 				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
+					<div class="font-bold">{{ comment.name }}</div>
+					<time>{{ comment.datePosted }}</time>
 				</div>
 
 				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
+					{{ comment.content }}
 				</p>
 			</li>
 		</ul>
