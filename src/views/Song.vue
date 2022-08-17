@@ -3,7 +3,7 @@
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
 	import { doc, getDoc, addDoc, query, where, getDocs } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
-	import { ref, reactive } from 'vue'
+	import { ref, reactive, computed } from 'vue'
 
 	const song = reactive({})
 	const schema = {
@@ -14,6 +14,7 @@
 	const comment_alert_variant = ref('bg-blue-500')
 	const comment_alert_message = ref('Please wait! Your comment is being submitted')
 	const comments = reactive([])
+	const sort = ref('1')
 	/*
 		create route and router object
 	 */
@@ -25,6 +26,22 @@
 	 */
 	const storeUser = useUserStore()
 
+	/*
+		computed
+	 */
+	const sortedComments = computed(() => {
+		return comments.slice().sort((a, b) => {
+			if (sort.value === '1') {
+				return new Date(b.datePosted) - new Date(a.datePosted)
+			}
+
+			return new Date(a.datePosted) - new Date(b.datePosted)
+		})
+	})
+
+	/*
+		methods
+	 */
 	const getComments = async () => {
 		const q = query(commentsCollection, where('sid', '==', route.params.id))
 
@@ -72,6 +89,8 @@
 
 		await addDoc(commentsCollection, comment)
 
+		getComments()
+
 		comment_in_submission.value = false
 		comment_alert_variant.value = 'bg-green-500'
 		comment_alert_message.value = 'Comment added'
@@ -79,6 +98,9 @@
 		resetForm()
 	}
 
+	/*
+			get song data and comments associated with this song when component load
+	 */
 	getSong()
 </script>
 <template>
@@ -120,9 +142,10 @@
 						>Submit</button>
 					</vee-form>
 
-					<select
+					<select v-model="sort"
 						class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
-          duration-500 focus:outline-none focus:border-black rounded">
+          	duration-500 focus:outline-none focus:border-black rounded"
+					>
 						<option value="1">Latest</option>
 						<option value="2">Oldest</option>
 					</select>
@@ -130,7 +153,7 @@
 			</div>
 		</section>
 		<ul class="container mx-auto">
-			<li class="p-6 bg-gray-50 border border-gray-200" v-for="comment in comments" :key="comment.docID">
+			<li class="p-6 bg-gray-50 border border-gray-200" v-for="comment in sortedComments" :key="comment.docID">
 				<!-- Comment Author -->
 				<div class="mb-5">
 					<div class="font-bold">{{ comment.name }}</div>
