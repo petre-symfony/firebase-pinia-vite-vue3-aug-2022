@@ -14,6 +14,10 @@
 	const comment_alert_variant = ref('bg-blue-500')
 	const comment_alert_message = ref('Please wait! Your comment is being submitted')
 	const comments = reactive([])
+	/*
+		'1' sort songs from the latest posted to the oldest
+		otherwise display songs from oldest to latest
+	 */
 	const sort = ref('1')
 	/*
 		create route and router object
@@ -102,6 +106,17 @@
 			get song data and comments associated with this song when component load
 	 */
 	getSong()
+
+	/*
+		watch for changes in sort value
+	 */
+	watch(sort.value, (newVal, oldVal) => {
+		router.push({
+			query: {
+				sort: newVal
+			}
+		})
+	})
 </script>
 <template>
 	<div>
