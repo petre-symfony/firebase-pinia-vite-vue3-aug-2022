@@ -3,7 +3,7 @@
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
 	import { doc, getDoc, addDoc, query, where, getDocs } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
-	import { ref, reactive, computed } from 'vue'
+	import { ref, reactive, computed, watch } from 'vue'
 
 	const song = reactive({})
 	const schema = {
@@ -110,13 +110,23 @@
 	/*
 		watch for changes in sort value
 	 */
-	watch(sort.value, (newVal, oldVal) => {
+	watch(sort, (newVal, oldVal) => {
+		if (newVal === route.query.sort) {
+			return
+		}
+
 		router.push({
 			query: {
 				sort: newVal
 			}
 		})
 	})
+
+	/*
+	  update sort property if there's a sort parameter in the query route object
+	 */
+	const sortQuery = route.query.sort
+	sort.value = sortQuery === '1' || sortQuery === '2' ? sortQuery : '1'
 </script>
 <template>
 	<div>
