@@ -16,6 +16,17 @@ export const usePlayer = defineStore("player", {
 			})
 
 			this.sound.play()
+		},
+		async toggleAudio() {
+			if (!this.sound.playing) {
+				return
+			}
+
+			if (this.sound.playing()) {
+				this.sound.pause()
+			} else {
+				this.sound.play()
+			}
 		}
 	}
 })

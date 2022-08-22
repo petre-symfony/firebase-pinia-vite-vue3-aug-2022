@@ -1,9 +1,17 @@
+<script setup>
+import { usePlayer } from "@/stores/player.js"
+
+	/*
+		store the song data in a state when play button is hit
+	 */
+	const storeSongToPlay = usePlayer()
+</script>
 <template>
 	<!-- Player -->
 	<div class="fixed bottom-0 left-0 bg-white p-5 pb-4 text-left align-top w-full h-16">
 		<div class="relative">
 			<!-- Play/Pause Button -->
-			<div class="float-left w-7 h-7 leading-3">
+			<div class="float-left w-7 h-7 leading-3" @click.prevent="storeSongToPlay.toggleAudio">
 				<button type="button">
 					<i class="fa fa-play text-gray-500 text-xl"></i>
 				</button>
