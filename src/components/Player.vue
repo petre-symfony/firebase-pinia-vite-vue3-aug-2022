@@ -13,7 +13,10 @@ import { usePlayer } from "@/stores/player.js"
 			<!-- Play/Pause Button -->
 			<div class="float-left w-7 h-7 leading-3" @click.prevent="storeSongToPlay.toggleAudio">
 				<button type="button">
-					<i class="fa fa-play text-gray-500 text-xl"></i>
+					<i
+						class="fa text-gray-500 text-xl"
+						:class="{'fa-play': !storeSongToPlay.playing, 'fa-pause': storeSongToPlay.playing }"
+					></i>
 				</button>
 			</div>
 			<!-- Current Position -->
