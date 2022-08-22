@@ -1,6 +1,7 @@
 <script setup>
 	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
+	import { usePlayer } from "@/stores/player.js"
 	import { doc, getDoc, addDoc, query, where, getDocs, runTransaction } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive, computed, watch } from 'vue'
@@ -29,6 +30,11 @@
 		user pinia store
 	 */
 	const storeUser = useUserStore()
+
+	/*
+		store the song data in a state when play button is hit
+	 */
+	const storeSongToPlay = usePlayer()
 
 	/*
 		computed
@@ -145,8 +151,12 @@
 				style="background-image: url(/assets/img/song-header.png)">
 			</div>
 			<div class="container mx-auto flex items-center">
-				<button type="button" class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full
-        focus:outline-none">
+				<!-- Play/Pause button -->
+				<button
+					@click.prevent="storeSongToPlay.newSong(song)"
+					type="button"
+					class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none"
+				>
 					<i class="fas fa-play"></i>
 				</button>
 				<div class="z-50 text-left ml-8">
