@@ -1,7 +1,7 @@
 <script setup>
 	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
-	import { doc, getDoc, addDoc, query, where, getDocs } from 'firebase/firestore'
+	import { doc, getDoc, addDoc, query, where, getDocs, updateDoc } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive, computed, watch } from 'vue'
 
@@ -93,6 +93,13 @@
 
 		await addDoc(commentsCollection, comment)
 
+		song.comment_count += 1
+
+		const songRef = doc(firebaseFirestore, 'songs', route.params.id)
+		await updateDoc(songRef, {
+			comment_count: song.comment_count
+		})
+
 		getComments()
 
 		comment_in_submission.value = false
@@ -148,7 +155,7 @@
 		<section class="container mx-auto mt-6">
 			<div class="bg-white rounded border border-gray-200 relative flex flex-col">
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-					<span class="card-title">Comments (15)</span>
+					<span class="card-title">Comments ({{ song.comment_count }})</span>
 					<i class="fa fa-comments float-right text-green-400 text-2xl"></i>
 				</div>
 				<div class="p-6">
