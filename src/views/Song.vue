@@ -1,7 +1,7 @@
 <script setup>
 	import { firebaseFirestore, firebaseAuth, commentsCollection } from '@/includes/firebase.js'
 	import { useUserStore } from '@/stores/storeUserLoggedIn.js'
-	import { doc, getDoc, addDoc, query, where, getDocs, updateDoc } from 'firebase/firestore'
+	import { doc, getDoc, addDoc, query, where, getDocs, runTransaction } from 'firebase/firestore'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref, reactive, computed, watch } from 'vue'
 
@@ -95,9 +95,12 @@
 
 		song.comment_count += 1
 
-		const songRef = doc(firebaseFirestore, 'songs', route.params.id)
-		await updateDoc(songRef, {
-			comment_count: song.comment_count
+		await runTransaction(firebaseFirestore, async (transaction) => {
+			const songRef = doc(firebaseFirestore, 'songs', route.params.id)
+
+			transaction.update(songRef, {
+				comment_count: song.comment_count
+			})
 		})
 
 		getComments()
