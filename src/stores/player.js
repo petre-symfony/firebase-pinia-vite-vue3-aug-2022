@@ -12,6 +12,10 @@ export const usePlayer = defineStore("player", {
 	}),
 	actions: {
 		async newSong(song) {
+			if (this.sound instanceof Howl) {
+				this.sound.unload()
+			}
+
 			this.current_song = song
 
 			this.sound = new Howl({
