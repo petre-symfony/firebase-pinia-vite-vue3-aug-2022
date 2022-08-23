@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { Howl } from 'howler'
+import helper from "@/includes/helper.js"
 
 export const usePlayer = defineStore("player", {
 	state: () => ({
@@ -35,8 +36,8 @@ export const usePlayer = defineStore("player", {
 			}
 		},
 		progress() {
-			this.seek = this.sound.seek()
-			this.duration = this.sound.duration()
+			this.seek = helper.formatTime(this.sound.seek())
+			this.duration = helper.formatTime(this.sound.duration())
 
 			if (this.sound.playing()) {
 				requestAnimationFrame(this.progress)
