@@ -49,6 +49,15 @@ export const usePlayer = defineStore("player", {
 			if (this.sound.playing()) {
 				requestAnimationFrame(this.progress)
 			}
+		},
+		updateSeek(event) {
+			if (!this.sound.playing) {
+				return
+			}
+
+			const { x } = event.currentTaget.getBoundingClientRect()
+			// Document = 2000px, Timeline=1000, clientX = 1000, distance = 500
+			const clickX = event.clientX - x
 		}
 	},
 	getters: {

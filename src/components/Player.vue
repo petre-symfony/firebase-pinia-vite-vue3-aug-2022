@@ -31,7 +31,9 @@ import { usePlayer } from "@/stores/player.js"
 					<span class="song-title">{{ storeSongToPlay.current_song.modified_name }}</span> by
 					<span class="song-artist">{{ storeSongToPlay.current_song.display_name }}</span>
 				</div>
-				<span class="block w-full h-2 rounded m-1 mt-2 bg-gray-200 relative cursor-pointer">
+				<span class="block w-full h-2 rounded m-1 mt-2 bg-gray-200 relative cursor-pointer"
+					@click.prevent="storeSongToPlay.updateSeek"
+				>
           <span class="absolute top-neg-8 text-gray-800 text-lg"
 						:style="{ left: storeSongToPlay.playerProgress }"
 					>
