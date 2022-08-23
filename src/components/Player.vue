@@ -30,11 +30,13 @@ import { usePlayer } from "@/stores/player.js"
 					<span class="song-artist">Artist</span>
 				</div>
 				<span class="block w-full h-2 rounded m-1 mt-2 bg-gray-200 relative cursor-pointer">
-          <span class="absolute top-neg-8 text-gray-800 text-lg" style="left: 50%;">
+          <span class="absolute top-neg-8 text-gray-800 text-lg"
+						:style="{ left: storeSongToPlay.playerProgress }"
+					>
             <i class="fas fa-circle"></i>
           </span>
           <span class="block h-2 rounded bg-gradient-to-r from-green-500 to-green-400"
-								style="width: 50%;"></span>
+						:style="{ width: storeSongToPlay.playerProgress }"></span>
         </span>
 			</div>
 			<!-- Duration -->
