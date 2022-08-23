@@ -40,6 +40,8 @@ export const usePlayer = defineStore("player", {
 			this.seek = helper.formatTime(this.sound.seek())
 			this.duration = helper.formatTime(this.sound.duration())
 
+			this.playerProgress = `${(this.sound.seek() / this.sound.duration()) * 100}%`
+
 			if (this.sound.playing()) {
 				requestAnimationFrame(this.progress)
 			}
