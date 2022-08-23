@@ -55,9 +55,14 @@ export const usePlayer = defineStore("player", {
 				return
 			}
 
-			const { x } = event.currentTaget.getBoundingClientRect()
+			const { x, width } = event.currentTaget.getBoundingClientRect()
 			// Document = 2000px, Timeline=1000, clientX = 1000, distance = 500
 			const clickX = event.clientX - x
+			const percentage = clickX / width
+			const seconds = this.sound.duration() * percentage
+
+			this.sound.seek(seconds)
+			this.sound.once("seek", this.progress)
 		}
 	},
 	getters: {
