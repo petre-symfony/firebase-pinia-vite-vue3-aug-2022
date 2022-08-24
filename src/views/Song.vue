@@ -145,7 +145,7 @@
 	sort.value = sortQuery === '1' || sortQuery === '2' ? sortQuery : '1'
 </script>
 <template>
-	<div>
+	<main>
 		<section class="w-full mb-8 py-14 text-center text-white relative">
 			<div class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
 				style="background-image: url(/assets/img/song-header.png)">
@@ -210,7 +210,7 @@
 				</p>
 			</li>
 		</ul>
-	</div>
+	</main>
 </template>
 
 <script>
