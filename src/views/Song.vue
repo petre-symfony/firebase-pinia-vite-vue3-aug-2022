@@ -157,7 +157,7 @@
 					type="button"
 					class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none"
 				>
-					<i class="fas fa-play"></i>
+					<i class="fas" :class="{'fa-play': !storeSongToPlay.playing, 'fa-pause': storeSongToPlay.playing }"></i>
 				</button>
 				<div class="z-50 text-left ml-8">
 					<div class="text-3xl font-bold">{{ song.modified_name }}</div>

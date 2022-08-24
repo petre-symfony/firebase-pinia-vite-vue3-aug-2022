@@ -5,7 +5,7 @@
 	import { ref, reactive, onBeforeUnmount } from 'vue'
 
 	const songs = reactive([])
-	const maxPerPage = 5
+	const maxPerPage = 10
 	const pendingRequest = ref(false)
 
 	const getSongs = async () => {
