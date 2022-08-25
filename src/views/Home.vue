@@ -1,6 +1,7 @@
 <script setup>
 	import { songsCollection, firebaseFirestore } from "@/includes/firebase.js"
 	import AppSongItem from "@/components/SongItem.vue"
+	import vIconSecondary from "@/directives/icon-secondary.js"
 	import { query, getDocs, limit, startAfter, doc, getDoc, orderBy } from 'firebase/firestore'
 	import { ref, reactive, onBeforeUnmount } from 'vue'
 
@@ -95,7 +96,7 @@
 		<section class="container mx-auto">
 			<div class="bg-white rounded border border-gray-200 relative flex flex-col">
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200"
-		 			v-icon.right.yellow="'headphones-alt'">
+		 			v-icon-secondary="{icon: 'headphones-alt', right: true}">
 					<span class="card-title">Songs</span>
 
 				</div>
